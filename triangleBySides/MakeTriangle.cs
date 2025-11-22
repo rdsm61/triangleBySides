@@ -4,37 +4,35 @@ namespace triangleBySides
 {
     class Triangle
     {
-        private uint sideA;
-        private uint sideB;
-        private uint sideC;
+        private uint[] sides = new uint[3];
         
-        public void SetSides((uint, uint, uint) lengths)
+        public void SetSides(uint[] lengths)
         {
-            sideA = lengths.Item1;
-            sideB = lengths.Item2;
-            sideC = lengths.Item3;
-            
+            for (int i = 0; i < 3; i++)
+                sides[i] = lengths[i];
         }
 
         public bool IsTriangle()
         {
-            return sideA < sideB + sideC && sideB < sideA + sideC && sideC < sideA + sideB;
+            return sides[0] < sides[1] + sides[2] && sides[1] < sides[0] + sides[2] && sides[2] < sides[0] + sides[1];
         }
 
         public uint Perimeter()
         {
-            return sideA + sideB + sideC;
+            return sides[0] + sides[1] + sides[2];
         }
 
         public double Area()
         {
             double p = (double)Perimeter() / 2;
-            return Math.Sqrt(p * (p - sideA) * (p - sideB) * (p - sideC));
+            return Math.Sqrt(p * (p - sides[0]) * (p - sides[1]) * (p - sides[2]));
         }
 
         public void Print()
         {
-            Console.Write("Lengths of triangle sides are: {0}, {1}, {2}", sideA, sideB, sideC);
+            Console.Write("Lengths of triangle sides are: ");
+            for (int i = 0; i < 3; i++)
+                Console.Write("{0} ", sides[i]);
             Console.WriteLine();
         }
     }
@@ -42,19 +40,10 @@ namespace triangleBySides
     {
         static void Main(string[] args)
         {
-            try {
+            try
+            {
+                Triangle abc = CreateTriangle();
 
-                Console.WriteLine("Enter triangle sides: ");
-                uint[] sides = new uint[3];
-                string[] tmp = Console.ReadLine().Split();
-
-                for (int i = 0; i < tmp.Length; i++)
-                {
-                    sides[i] = uint.Parse(tmp[i]);
-                }
-
-                Triangle abc = new Triangle();
-                abc.SetSides((sides[0], sides[1], sides[2]));
                 if (abc.IsTriangle())
                 {
                     abc.Print();
@@ -80,5 +69,22 @@ namespace triangleBySides
             }
             
         }
+
+        private static Triangle CreateTriangle()
+        {
+            Console.WriteLine("Enter triangle sides: ");
+            uint[] sides = new uint[3];
+            string[] tmp = Console.ReadLine().Split();
+
+            for (int i = 0; i < tmp.Length; i++)
+            {
+                sides[i] = uint.Parse(tmp[i]);
+            }
+
+            Triangle abc = new Triangle();
+            abc.SetSides(sides);
+            return abc;
+        }
+
     }
 }
