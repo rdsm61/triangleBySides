@@ -2,7 +2,7 @@
 
 namespace triangleBySides
 {
-    class Triangle
+    class Triangle : IComparable<Triangle>
     {
         private uint[] sides = new uint[3];
         
@@ -33,7 +33,36 @@ namespace triangleBySides
             Console.Write("Lengths of triangle sides are: ");
             for (int i = 0; i < 3; i++)
                 Console.Write("{0} ", sides[i]);
-            Console.WriteLine();
+    
+            Console.WriteLine("Area is {0:N3}", this.Area());
+        }
+
+        public int CompareTo(Triangle t2)
+        {
+            if (this.IsTriangle())
+            {
+                if (t2.IsTriangle())
+                {
+                    return this.Area().CompareTo(t2.Area());
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+            else
+            {
+                if (t2.IsTriangle())
+                {
+                    return -1;
+                }
+                else
+                {
+                    Console.WriteLine("These are not triangles");
+                    return 0;
+                }
+            }
+            
         }
     }
     class MakeTriangle
@@ -42,17 +71,51 @@ namespace triangleBySides
         {
             try
             {
-                Triangle abc = CreateTriangle();
+            //    Triangle abc = CreateTriangle();
 
-                if (abc.IsTriangle())
+            //    if (abc.IsTriangle())
+            //    {
+            //        abc.Print();
+            //        Console.WriteLine("Perimeter of the triangle is {0}", abc.Perimeter());
+            //        Console.WriteLine("Area of the triangle is {0}", abc.Area());
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine("There is no triangle with these sides");
+            //    }
+
+                Triangle[] figures = new Triangle[4];
+                uint[] lengths = new uint[3];
+                Random rnd = new Random();
+                int count = 0;
+
+                while (count < figures.Length)
                 {
-                    abc.Print();
-                    Console.WriteLine("Perimeter of the triangle is {0}", abc.Perimeter());
-                    Console.WriteLine("Area of the triangle is {0}", abc.Area());
+                    figures[count] = new Triangle();
+                    for (int k = 0; k < lengths.Length; k++)
+                    {
+                        lengths[k] = (uint)rnd.Next(1, 10);
+                    }
+                    figures[count].SetSides(lengths);
+
+                    if (figures[count].IsTriangle())
+                        count++;
                 }
-                else
+
+
+                Console.WriteLine("Before sorting");
+                foreach (var item in figures)
                 {
-                    Console.WriteLine("There is no triangle with these sides");
+                    item.Print();
+                }
+                Console.WriteLine();
+
+                Array.Sort(figures);
+
+                Console.WriteLine("After sorting");
+                foreach (var item in figures)
+                {
+                    item.Print();
                 }
             }
             catch (FormatException)
