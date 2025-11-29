@@ -5,6 +5,29 @@ namespace triangleBySides
     class Triangle : IComparable<Triangle>
     {
         private uint[] sides = new uint[3];
+
+        public Triangle(uint[] lengths)
+        {
+            for(int i = 0; i < 3; i++)
+            {
+                sides[i] = lengths[i];
+            }
+        }
+
+        public Triangle(uint length)
+        {
+            for(int i = 0; i < 3; i++)
+            {
+                sides[i] = length;
+            }
+        }
+
+        public Triangle()
+        {
+            sides[0] = 3;
+            sides[1] = 4;
+            sides[2] = 5;
+        }
         
         public void SetSides(uint[] lengths)
         {
@@ -91,12 +114,13 @@ namespace triangleBySides
 
                 while (count < figures.Length)
                 {
-                    figures[count] = new Triangle();
+                //    figures[count] = new Triangle();
                     for (int k = 0; k < lengths.Length; k++)
                     {
                         lengths[k] = (uint)rnd.Next(1, 10);
                     }
-                    figures[count].SetSides(lengths);
+                    figures[count] = new Triangle(lengths);
+                    //   figures[count].SetSides(lengths);
 
                     if (figures[count].IsTriangle())
                         count++;
